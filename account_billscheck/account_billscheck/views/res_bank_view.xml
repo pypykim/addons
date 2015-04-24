@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<record model="ir.actions.act_window" id="res_bank_view_action">
+			<field name="name">Bank Info</field>
+			<field name="res_model">res.bank</field>
+			<field name="view_mdoe">tree,form</field>
+		</record>
+		<menuitem action="res_bank_view_action"
+			 id="res_bank_menu" name="Bank Info"
+			 parent="account.menu_configuration_misc"/>
+
+	</data>
+</openerp>
