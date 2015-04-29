@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+# OpenERP, Open Source Management Solution
+# Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -30,7 +30,7 @@ This module allows to use several analytic plans according to the general journa
 this is fix-up for the view definition.
     """,
     'author': 'Odoo CN Team, Jeffery Chen Fan <jeffery9@gmail.com>',
-    'depends': ['account_analytic_plans'],
+    'depends': ['account_analytic_analysis', 'account_analytic_default', 'account_analytic_plans'],
     'data': ['account_analytic_plans_view.xml'],
     'demo': [],
     'installable': True,
