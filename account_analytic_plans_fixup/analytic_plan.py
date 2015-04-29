@@ -12,20 +12,6 @@ class account_analytic_account(osv.osv):
 
         invoice_lines = super(account_analytic_account, self)._prepare_invoice_lines(cr, uid, contract, fiscal_position_id, context=context)
 
-         """"
-         invoice_lines =  [
-         (0, 0, {
-            'name': line.name,
-            'account_id': account_id,
-            'account_analytic_id': contract.id,
-            'price_unit': line.price_unit or 0.0,
-            'quantity': line.quantity,
-            'uos_id': line.uom_id.id or False,
-            'product_id': line.product_id.id or False,
-            'invoice_line_tax_id': [(6, 0, tax_id)],
-            })]
-        """
-
         invoice = super(account_analytic_account, self)._prepare_invoice_data(cr, uid, contract, context=context)
 
         partner_id = invoice['partner_id']    
