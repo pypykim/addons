@@ -38,7 +38,7 @@ class calendar_event(models.Model):
         leaves = resource_calendar_leaves_model.create(
             {
                 'name': 'Meeting : {}'.format(event.name),
-                'calendar_id': event.resource_ids.resource_calendar.id,
+                'calendar_id': event.resource_ids.calendar_id.id,
                 'resource_id': event.resource_ids.id,
                 'date_from': event.start,
                 'date_to': event.stop,
@@ -69,12 +69,19 @@ class calendar_event(models.Model):
         resources used by the event.
         """
         event = super(calendar_event, self).create(vals)
-        self._create_resource_leaves(event)
+        leaves = self._create_resource_leaves(event)
+        event.write({'resource_calendar_leaves_ids': leaves.id})
         return event
 
     @api.multi
     def write(self, vals):
-        return super(calendar_event, self).write(vals)
+        self.env['resource.calendar.leaves'].search([('calendar_event_id', '=', self.id)]).unlink()
+        leaves = self._create_resource_leaves(self)
+        vals['resource_calendar_leaves_ids'] = leaves.id
+        _logger.info(vals)
+        result = super(calendar_event, self).write(vals)
+
+        return result
 
     resource_ids = fields.Many2one(
         'resource.resource',
