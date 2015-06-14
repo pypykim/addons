@@ -48,7 +48,7 @@
         </record>
 
         <menuitem name="Resource Leaves"
-                  id="mail_menu_calendar"
+                  id="mail_menu_leaves"
                   parent="mail.mail_my_stuff"
                   sequence="11"
                   action="action_calendar_resources_leaves"/>

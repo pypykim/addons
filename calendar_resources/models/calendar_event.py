@@ -53,8 +53,8 @@ class calendar_event(models.Model):
             ('calendar_id', '=', event.resource_ids.resource_calendar.id),
             ('resource_id', '=', event.resource_ids.id),
 
-            '|', ('date_from', '>=', event.start),
-            '|', ('date_from', '<=', event.stop),
+            ('date_from', '>=', event.start),
+            ('date_from', '<=', event.stop),
 
             ('date_to', '>=', event.start),
             ('date_to', '<=', event.stop),

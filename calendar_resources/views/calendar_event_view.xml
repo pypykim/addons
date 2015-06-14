@@ -13,7 +13,7 @@
                 <xpath expr="//div[@class='oe_title']" position="inside">
                     <label for="resource_ids" string="Resources"/>
                     <h2>
-                        <field name="resource_ids" widget="many2many_tags"
+                        <field name="resource_ids"
                                class="oe_inline"/>
                     </h2>
                 </xpath>
@@ -28,7 +28,7 @@
                    ref="calendar.view_calendar_event_form_popup"/>
             <field name="arch" type="xml">
                 <field name="partner_ids" position="after">
-                    <field name="resource_ids" widget="many2many_tags"/>
+                    <field name="resource_ids"/>
                 </field>
             </field>
         </record>
