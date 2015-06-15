@@ -43,12 +43,18 @@
         </record>
 
 
-
         <menuitem name="Resources"
                   id="mail_menu_resource"
                   parent="mail.mail_my_stuff"
                   sequence="11"
                   action="resource.action_resource_resource_tree"/>
+
+        <menuitem name="Resources"
+                  id="meeting_menu_resource"
+                  parent="meeting_menu_config"
+                  sequence="20"
+                  action="resource.action_resource_resource_tree"/>
+
 
     </data>
 </openerp>

@@ -19,6 +19,7 @@
 #
 
 import logging
+
 _logger = logging.getLogger(__name__)
 
 from openerp import models, fields, api, tools
@@ -31,6 +32,5 @@ class resource_calendar_leaves(models.Model):
 
     calendar_event_id = fields.Many2one(
         'calendar.event',
-        string='Event',
+        string='Event', ondelete='cascade',
     )
-

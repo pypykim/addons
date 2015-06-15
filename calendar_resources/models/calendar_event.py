@@ -34,9 +34,14 @@ class calendar_event(models.Model):
 
     @api.model
     def _create_resource_leaves(self, event):
-        existed_leaves = self.env['resource.calendar.leaves'].search([('calendar_event_id', '=', event.id)])
-        _logger.info(existed_leaves)
-        existed_leaves.unlink()
+        old_leaves = self.env['resource.calendar.leaves'].search([('calendar_event_id', '=', event.id)])
+        _logger.info('remove existed resource leave for this event %s: %s' % (event, old_leaves))
+        old_leaves.unlink()
+
+        exists = self._exists_resource_leaves(event)
+        if len(exists) > 0:
+            raise Warning(
+                'The resource have not full available the time slot! \n Please choose another time slot, thanks.')
 
         resource_calendar_leaves_model = self.env['resource.calendar.leaves']
 
@@ -51,21 +56,21 @@ class calendar_event(models.Model):
             }
         )
 
-        _logger.info('created leave %s' % leaves)
+        _logger.info('created leave %s for event %s' % (leaves, event))
 
         return leaves
 
     def _exists_resource_leaves(self, event):
         query = """ SELECT id
                         FROM resource_calendar_leaves
-                        WHERE calendar_id = %s AND
+                        WHERE
                         resource_id = %s AND
                         ((date_from  >=  %s  AND date_from  <=  %s ) OR
                         (date_to  >=  %s  AND date_to  <=  %s ))
 
                     """
         self._cr.execute(query, (
-            event.resource_ids.calendar_id.id, event.resource_ids.id, event.start, event.stop, event.start,
+            event.resource_ids.id, event.start, event.stop, event.start,
             event.stop))
 
         ids = []
@@ -80,7 +85,6 @@ class calendar_event(models.Model):
         resources used by the event.
         """
         event = super(calendar_event, self).create(vals)
-
         leaves = self._create_resource_leaves(event)
         return event
 
@@ -89,16 +93,8 @@ class calendar_event(models.Model):
         result = super(calendar_event, self).write(vals)
 
         leaves = self._create_resource_leaves(self)
-        _logger.info(vals)
-        _logger.info(self)
-
-        return result
-
-    @api.multi
-    def unlink(self):
-        self.env['resource.calendar.leaves'].search([('calendar_event_id', '=', self.id)]).unlink()
-
-        result = super(calendar_event, self).unlink()
+        _logger.info('modified values: %s' % vals)
+        _logger.info('event modified: %s' % self)
 
         return result
 
@@ -110,5 +106,4 @@ class calendar_event(models.Model):
 
     resource_calendar_leaves_ids = fields.Many2one(
         'resource.calendar.leaves',
-        string='Resources Calendar leaves',
-    )
+        string='Resources Calendar leaves', )
