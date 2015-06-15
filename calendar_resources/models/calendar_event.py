@@ -101,9 +101,9 @@ class calendar_event(models.Model):
     resource_ids = fields.Many2one(
         'resource.resource',
         domain="[('display', '=', True)]",
-        string='Resources', required=True,
+        string='Room', required=True,
     )
 
     resource_calendar_leaves_ids = fields.Many2one(
         'resource.calendar.leaves',
-        string='Resources Calendar leaves', )
+        string='Room Calendar leaves', )
