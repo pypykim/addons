@@ -26,6 +26,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, \
     DEFAULT_SERVER_DATE_FORMAT
 
 from openerp import models, fields, api
+from openerp.exceptions import Warning
 
 
 class calendar_event(models.Model):
@@ -33,6 +34,10 @@ class calendar_event(models.Model):
 
     @api.model
     def _create_resource_leaves(self, event):
+        existed_leaves = self.env['resource.calendar.leaves'].search([('calendar_event_id', '=', event.id)])
+        _logger.info(existed_leaves)
+        existed_leaves.unlink()
+
         resource_calendar_leaves_model = self.env['resource.calendar.leaves']
 
         leaves = resource_calendar_leaves_model.create(
@@ -46,22 +51,28 @@ class calendar_event(models.Model):
             }
         )
 
+        _logger.info('created leave %s' % leaves)
+
         return leaves
 
     def _exists_resource_leaves(self, event):
-        domain = [
-            ('calendar_id', '=', event.resource_ids.resource_calendar.id),
-            ('resource_id', '=', event.resource_ids.id),
+        query = """ SELECT id
+                        FROM resource_calendar_leaves
+                        WHERE calendar_id = %s AND
+                        resource_id = %s AND
+                        ((date_from  >=  %s  AND date_from  <=  %s ) OR
+                        (date_to  >=  %s  AND date_to  <=  %s ))
 
-            ('date_from', '>=', event.start),
-            ('date_from', '<=', event.stop),
+                    """
+        self._cr.execute(query, (
+            event.resource_ids.calendar_id.id, event.resource_ids.id, event.start, event.stop, event.start,
+            event.stop))
 
-            ('date_to', '>=', event.start),
-            ('date_to', '<=', event.stop),
+        ids = []
+        for id in self._cr.fetchall():
+            ids.append(id)
 
-        ]
-
-        return self.env['resource.calendar.leaves'].search(domain)
+        return ids
 
     @api.model
     def create(self, vals):
@@ -69,27 +80,35 @@ class calendar_event(models.Model):
         resources used by the event.
         """
         event = super(calendar_event, self).create(vals)
+
         leaves = self._create_resource_leaves(event)
-        event.write({'resource_calendar_leaves_ids': leaves.id})
         return event
 
     @api.multi
     def write(self, vals):
-        self.env['resource.calendar.leaves'].search([('calendar_event_id', '=', self.id)]).unlink()
-        leaves = self._create_resource_leaves(self)
-        vals['resource_calendar_leaves_ids'] = leaves.id
-        _logger.info(vals)
         result = super(calendar_event, self).write(vals)
+
+        leaves = self._create_resource_leaves(self)
+        _logger.info(vals)
+        _logger.info(self)
+
+        return result
+
+    @api.multi
+    def unlink(self):
+        self.env['resource.calendar.leaves'].search([('calendar_event_id', '=', self.id)]).unlink()
+
+        result = super(calendar_event, self).unlink()
 
         return result
 
     resource_ids = fields.Many2one(
         'resource.resource',
         domain="[('display', '=', True)]",
-        string='Resources'
+        string='Resources', required=True,
     )
 
     resource_calendar_leaves_ids = fields.Many2one(
         'resource.calendar.leaves',
-        string='Resources Calendar leaves'
+        string='Resources Calendar leaves',
     )

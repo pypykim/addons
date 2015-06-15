@@ -42,10 +42,12 @@
             </field>
         </record>
 
+
+
         <menuitem name="Resources"
                   id="mail_menu_resource"
                   parent="mail.mail_my_stuff"
-                  sequence="15"
+                  sequence="11"
                   action="resource.action_resource_resource_tree"/>
 
     </data>
