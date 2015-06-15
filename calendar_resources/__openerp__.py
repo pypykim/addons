@@ -23,7 +23,8 @@
 {
     'name': 'Calendar Resources',
     'version': '0.1',
-    'author': ['Savoir-faire Linux', 'Odoo CN, Jeffery <jeffery9@gmail.com>'],
+    'author': "Savoir-faire Linux,"
+              "Odoo CN, Jeffery <jeffery9@gmail.com>",
     'maintainer': 'Savoir-faire Linux',
     'website': 'http://www.savoirfairelinux.com',
     'license': 'AGPL-3',
