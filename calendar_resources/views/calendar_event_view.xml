@@ -63,7 +63,7 @@
                     <calendar string="Meetings" date_start="start" date_stop="stop" date_delay="duration"
                               all_day="allday"
                               display="[user_id]-[name]" color="resource_ids" attendee="resource_ids" quick_add="False"
-                              use_contacts="False" event_open_popup="%(calendar.view_calendar_event_form_popup)s">
+                              use_contacts="False"  mode="week" event_open_popup="%(calendar.view_calendar_event_form_popup)s">
                         <field name="name"/>
                         <field name="user_id"/>
                         <field name="color_partner_id"/>

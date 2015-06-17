@@ -41,7 +41,7 @@ class calendar_event(models.Model):
         exists = self._exists_resource_leaves(event)
         if len(exists) > 0:
             raise Warning(
-                'The resource have not full available the time slot! \n Please choose another time slot, thanks.')
+                'The resource have not full available for this time slot! \n Please choose another one, thanks.')
 
         resource_calendar_leaves_model = self.env['resource.calendar.leaves']
 
@@ -61,17 +61,22 @@ class calendar_event(models.Model):
         return leaves
 
     def _exists_resource_leaves(self, event):
-        query = """ SELECT id
-                        FROM resource_calendar_leaves
-                        WHERE
-                        resource_id = %s AND
-                        ((date_from  >=  %s  AND date_from  <=  %s ) OR
-                        (date_to  >=  %s  AND date_to  <=  %s ))
+        query = """
+            SELECT id
+            FROM resource_calendar_leaves
+            WHERE
+            resource_id = %s AND
+            ((date_from  <=  %s  AND date_to  >=  %s )
+            OR
+            (date_from  >=  %s  AND date_from  <  %s )
+            OR
+            (date_to  >  %s  AND date_to  <=  %s )
+            )
 
-                    """
+
+            """
         self._cr.execute(query, (
-            event.resource_ids.id, event.start, event.stop, event.start,
-            event.stop))
+        event.resource_ids.id, event.start, event.stop, event.start, event.stop, event.start, event.stop))
 
         ids = []
         for id in self._cr.fetchall():
@@ -84,6 +89,7 @@ class calendar_event(models.Model):
         """ Create the event then create resource leaves linked to the
         resources used by the event.
         """
+        vals['allday'] = False
         event = super(calendar_event, self).create(vals)
         leaves = self._create_resource_leaves(event)
         return event
