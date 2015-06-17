@@ -19,10 +19,12 @@
 #
 
 import logging
+
 _logger = logging.getLogger(__name__)
 
 from openerp import models, fields, api, tools
 from openerp import osv
+import datetime
 
 
 class resource_resource(models.Model):
@@ -40,7 +42,7 @@ class resource_resource(models.Model):
     _store_image = {'resource.resource': (
         lambda self, cr, uid, ids, c={}: ids, ['image'], 10
     ),
-                    }
+    }
 
     name = fields.Char("Name", required=True, translate=True)
     image = fields.Binary(
@@ -64,4 +66,34 @@ class resource_resource(models.Model):
     }
 
     display = fields.Boolean(default=True)
+    seats = fields.Integer()
     note = fields.Text()
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        context = self._context or {}
+        _logger.info(context)
+
+        str_from = context['start']
+        str_to = context['stop']
+        dt_from = datetime.datetime.strptime(str_from, tools.DEFAULT_SERVER_DATETIME_FORMAT)
+        dt_to = datetime.datetime.strptime(str_to, tools.DEFAULT_SERVER_DATETIME_FORMAT)
+        duration_hours = (dt_to - dt_from).seconds / 3600
+        _logger.info('duration in hours %s' % duration_hours)
+
+        args = args or []
+        resource_filter = []
+        resources = super(resource_resource, self).name_search(name, args, operator='ilike', limit=100)
+        for resource in resources:
+            _logger.info(resource)
+            resource_id = resource[0]
+            resource_calendar_id = self.env['resource.resource'].browse(resource_id).calendar_id.id
+            _logger.info(resource_calendar_id)
+            resource_calendar_obj = self.env['resource.calendar'].browse(resource_calendar_id)
+            hours = resource_calendar_obj.get_working_hours(dt_from, dt_to, True, resource_id, context)
+            _logger.info(hours)
+
+            resource = (resource_id, resource[1], hours)
+            if hours and hours[0] >= duration_hours: resource_filter.append(resource)
+
+        return resource_filter
