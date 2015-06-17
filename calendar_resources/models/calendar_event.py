@@ -22,8 +22,6 @@ import logging
 
 _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.DEBUG)
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, \
-    DEFAULT_SERVER_DATE_FORMAT
 
 from openerp import models, fields, api
 from openerp.exceptions import Warning
@@ -76,7 +74,7 @@ class calendar_event(models.Model):
 
             """
         self._cr.execute(query, (
-        event.resource_ids.id, event.start, event.stop, event.start, event.stop, event.start, event.stop))
+            event.resource_ids.id, event.start, event.stop, event.start, event.stop, event.start, event.stop))
 
         ids = []
         for id in self._cr.fetchall():
@@ -107,9 +105,14 @@ class calendar_event(models.Model):
     resource_ids = fields.Many2one(
         'resource.resource',
         domain="[('display', '=', True)]",
-        string='Room', required=True,
+        string='Room',
     )
 
-    resource_calendar_leaves_ids = fields.Many2one(
-        'resource.calendar.leaves',
-        string='Room Calendar leaves', )
+    resource_calendar_leaves_ids = fields.One2many(
+        'resource.calendar.leaves', 'calendar_event_id',
+        string='Room Reservations', )
+
+
+class event_reservation_create(models.TransientModel):
+    """Event Confirmation"""
+    _name = "event.reservation.create"

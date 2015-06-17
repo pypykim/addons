@@ -1,6 +1,32 @@
 <?xml version = "1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <record id="view_reservation_create" model="ir.ui.view">
+            <field name="name">Event Confirmation</field>
+            <field name="model">event.reservation.create</field>
+            <field name="arch" type="xml">
+                <form string="Event Confirmation">
+                    <label string="Warning: This Event has not reached its Minimum Registration Limit. Are you sure you want to confirm it?"/>
+                    <footer>
+                        <!--<button name="confirm" string="Confirm Anyway" type="object" class="oe_highlight"/>-->
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_reservation_create" model="ir.actions.act_window">
+            <field name="name">Event Confirmation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">event.reservation.create</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_reservation_create"/>
+            <field name="context">{'record_id' : active_id}</field>
+            <field name="target">new</field>
+        </record>
+
         <record id="view_calendar_resources_event_form" model="ir.ui.view">
             <field name="name">Calendar: resources</field>
             <field name="model">calendar.event</field>
@@ -11,15 +37,31 @@
                     <attribute name="class"></attribute>
                 </xpath>
                 <xpath expr="//label[@for='description']" position="before">
-
                     <group>
                         <group>
-                            <field name="resource_ids"/>
+                            <field name="resource_ids" options="{'no_quick_create': True , 'no_open':True}"/>
                         </group>
                         <group></group>
                     </group>
+                    <button class="oe_inline oe_stat_button oe_right" name="%(action_reservation_create)d"
+                            string="Rooms" Help="Select Room for reservation"
+                            type="action" icon="fa-pencil-square-o" widget="statinfo"/>
+                    <group>
+                        <group>
+                            <group>
 
+                                <field name="resource_calendar_leaves_ids">
+                                    <tree string="Resource Reservations ">
+                                        <field name="resource_id"/>
+                                        <field name="date_from"/>
+                                        <field name="date_to"/>
 
+                                    </tree>
+                                </field>
+                            </group>
+
+                        </group>
+                    </group>
                 </xpath>
             </field>
         </record>
@@ -29,12 +71,8 @@
             <field name="model">calendar.event</field>
             <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
             <field name="arch" type="xml">
-
                 <field name="name" position="before">
-
                     <field name="resource_ids"/>
-
-
                 </field>
             </field>
         </record>
@@ -47,7 +85,14 @@
                    ref="calendar.view_calendar_event_form_popup"/>
             <field name="arch" type="xml">
                 <field name="partner_ids" position="after">
-                    <field name="resource_ids"/>
+                    <field name="resource_calendar_leaves_ids">
+                        <tree string="Resource Reservations ">
+                            <field name="resource_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+
+                        </tree>
+                    </field>
                 </field>
             </field>
         </record>
@@ -62,20 +107,18 @@
                 <calendar position="replace">
                     <calendar string="Booking" date_start="start" date_stop="stop" date_delay="duration"
                               all_day="allday"
-                              display="[user_id]-[name]" color="resource_ids" attendee="resource_ids" quick_add="False"
-                              use_contacts="False"  mode="week" event_open_popup="%(calendar.view_calendar_event_form_popup)s">
+                              display="[user_id] - [[name]]" color="resource_ids" attendee="resource_ids"
+                              quick_add="False"
+                              use_contacts="False" mode="week"
+                              event_open_popup="%(calendar.view_calendar_event_form_popup)s">
                         <field name="name"/>
-                        <!--<field name="user_id"/>-->
+                        <field name="user_id"/>
                         <!--<field name="color_partner_id"/>-->
                         <!--<field name="partner_ids"/>-->
                     </calendar>
-
                 </calendar>
-
-
             </field>
         </record>
-
 
         <record id="view_calendar_resources_event_gantt" model="ir.ui.view">
             <field name="name">Calendar: resources Gantt</field>
@@ -84,18 +127,16 @@
                    ref="calendar.view_calendar_event_gantt"/>
             <field name="arch" type="xml">
                 <gantt position="replace">
-                    <gantt date_delay="duration" date_start="start" string="Booking" default_group_by="resource_ids" mode="week"/>
+                    <gantt date_delay="duration" date_start="start" string="Booking" default_group_by="resource_ids"
+                           mode="week"/>
                 </gantt>
-
             </field>
         </record>
-
 
         <menuitem name="Meetings"
                   id="top_menu_meetings"
                   sequence="10"
                 />
-
 
         <menuitem name="Meetings"
                   id="meeting_menu_meetings"
@@ -114,7 +155,5 @@
                   parent="meeting_menu_meetings"
                   sequence="10"
                   action="calendar.action_calendar_event"/>
-
-
     </data>
 </openerp>

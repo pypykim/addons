@@ -65,3 +65,4 @@ class resource_resource(models.Model):
 
     display = fields.Boolean(default=True)
     note = fields.Text()
+

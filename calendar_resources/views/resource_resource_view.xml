@@ -48,6 +48,5 @@
                   sequence="20"
                   action="resource.action_resource_resource_tree"/>
 
-
     </data>
 </openerp>
