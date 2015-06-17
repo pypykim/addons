@@ -78,8 +78,8 @@ class resource_resource(models.Model):
         str_to = context['stop']
         dt_from = datetime.datetime.strptime(str_from, tools.DEFAULT_SERVER_DATETIME_FORMAT)
         dt_to = datetime.datetime.strptime(str_to, tools.DEFAULT_SERVER_DATETIME_FORMAT)
-        duration_hours = (dt_to - dt_from).seconds / 3600
-        _logger.info('duration in hours %s' % duration_hours)
+        duration_hours = float((dt_to - dt_from).total_seconds() / 3600)
+        _logger.info('date from  %s to  %s duration in hours %s' % (str_from, str_to, duration_hours))
 
         args = args or []
         resource_filter = []
@@ -88,7 +88,6 @@ class resource_resource(models.Model):
             _logger.info(resource)
             resource_id = resource[0]
             resource_calendar_id = self.env['resource.resource'].browse(resource_id).calendar_id.id
-            _logger.info(resource_calendar_id)
             resource_calendar_obj = self.env['resource.calendar'].browse(resource_calendar_id)
             hours = resource_calendar_obj.get_working_hours(dt_from, dt_to, True, resource_id, context)
             _logger.info(hours)

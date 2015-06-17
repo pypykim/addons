@@ -35,6 +35,7 @@
                 </field>
                 <xpath expr="//form/group" position="after">
                     <group>
+                        <field name="seats"/>
                         <field name="note"/>
                     </group>
                 </xpath>
