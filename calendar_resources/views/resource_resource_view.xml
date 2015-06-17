@@ -42,13 +42,6 @@
             </field>
         </record>
 
-
-        <menuitem name="Rooms"
-                  id="mail_menu_resource"
-                  parent="mail.mail_my_stuff"
-                  sequence="11"
-                  action="resource.action_resource_resource_tree"/>
-
         <menuitem name="Rooms"
                   id="meeting_menu_resource"
                   parent="meeting_menu_config"
