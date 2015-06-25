@@ -1,0 +1,15 @@
+<openerp>
+    <data>
+        <template id="company_description" name="Company Description">
+            <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                <!-- TODO widget contact must add itemprop attributes -->
+                <div t-field="res_company.partner_id" t-field-options='{
+                "widget": "contact",
+                "fields": ["name", "address", "phone", "mobile", "fax", "email"]}'/>
+            </address>
+            <a t-att-href="res_company.baidu_map_link()" target="_BLANK">
+                <img class="thumbnail img-responsive" t-att-src="res_company.baidu_map_img()"/>
+            </a>
+        </template>
+    </data>
+</openerp>
