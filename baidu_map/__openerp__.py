@@ -21,4 +21,6 @@
 
         'templates.xml',
     ],
+    'price': 4.99,
+    'currency': 'EUR',
 }
