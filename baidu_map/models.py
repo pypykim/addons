@@ -22,6 +22,8 @@ class res_partner(models.Model):
             'center': '%s,%s' % (str(self.partner_longitude), str(self.partner_latitude)),
             'width': "%s" % (width),
             'height': "%s" % (height),
+            'markers': '%s,%s' % (str(self.partner_longitude), str(self.partner_latitude)),
+            'markerStyles': '1,0',
             'zoom': zoom,
         }
         return urlplus('http://api.map.baidu.com/staticimage', params)
@@ -46,7 +48,7 @@ class res_company(models.Model):
     _inherit = "res.company"
 
     @api.model
-    def baidu_map_img(self, zoom=15, width=298, height=298):
+    def baidu_map_img(self, zoom=10, width=298, height=298):
         return self.partner_id.baidu_map_img(zoom, width, height) or None
 
     @api.model
