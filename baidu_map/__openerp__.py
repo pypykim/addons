@@ -16,11 +16,10 @@
     'version': '0.1',
 
     'depends': ['base_geolocalize', 'website'],
+    'qweb': [],
 
-    'data': [
+    'data': ['templates.xml'],
 
-        'templates.xml',
-    ],
     'price': 4.99,
     'currency': 'EUR',
 }
