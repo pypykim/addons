@@ -8,6 +8,7 @@ from openerp.tools.translate import _
 from openerp.addons.base.res.res_users import name_boolean_group, name_selection_groups
 from openerp import tools
 
+
 class res_users(osv.Model):
     _inherit = 'res.users'
 
@@ -40,7 +41,9 @@ class groups_view(osv.Model):
         view = self.pool['ir.model.data'].xmlid_to_object(cr, SUPERUSER_ID, 'base.user_groups_view', context=context)
         if view and view.exists() and view._name == 'ir.ui.view':
             xml1, xml2 = [], []
-            xml1.append(E.separator(string=_('Application'), colspan="4"))
+            _attrs = {
+                'groups': 'base.group_no_one'}
+            xml1.append(E.separator(string=_('Application'), colspan="4", **_attrs))
 
             xml3 = []
             xml3.append(E.separator(string=_('User Roles'), colspan="4"))
@@ -63,6 +66,9 @@ class groups_view(osv.Model):
                 # hide groups in category 'Hidden' (except to group_no_one)
                 attrs = {
                     'groups': 'base.group_no_one'} if app and app.xml_id == 'base.module_category_hidden' and not custom else {}
+
+                attrs = {
+                    'groups': 'base.group_no_one'} if app and not custom else {}
 
                 if kind == 'selection':
                     xml = xml or xml1
