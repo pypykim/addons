@@ -43,16 +43,14 @@ class groups_view(osv.Model):
             xml1, xml2 = [], []
             _attrs = {
                 'groups': 'base.group_no_one'}
-            xml1.append(E.separator(string=_('Application'), colspan="4", **_attrs))
+            xml1.append(E.separator(string=_('Application'), colspan="2", **_attrs))
 
             xml3 = []
             xml3.append(E.separator(string=_('User Roles'), colspan="4"))
 
             custom_group_id = None
             try:
-                custom_group_id = \
-                    self.pool['ir.model.data'].get_object_reference(cr, uid, 'res_roles',
-                                                                    'module_category_user_roles')[1]
+                custom_group_id = self.pool['ir.model.data'].get_object_reference(cr, uid, 'res_roles','module_category_user_roles')[1]
             except:
                 pass
             for app, kind, gs in self.get_groups_by_application(cr, uid, context):
@@ -86,7 +84,7 @@ class groups_view(osv.Model):
                         field_name = name_boolean_group(g.id)
                         xml.append(E.field(name=field_name, **attrs))
 
-            xml = E.field(*(xml3 + xml1 + xml2), name="groups_id", position="replace")
+            xml = E.field(E.group(*(xml3), col="4") ,E.group(*(xml1), col="2") ,E.group(*(xml2), col="4") , name="groups_id", position="replace")
             xml.addprevious(etree.Comment("GENERATED AUTOMATICALLY BY GROUPS"))
             xml_content = etree.tostring(xml, pretty_print=True, xml_declaration=True, encoding="utf-8")
             view.write({'arch': xml_content})

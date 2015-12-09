@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "用户角色",
+    'name': "User Role",
 
     'summary': """
         本模块定义了用户角色
@@ -11,8 +11,8 @@
 
     """,
 
-    'author': "Your Company",
-    'website': "http://www.yourcompany.com",
+    'author': "jeffery chen fan",
+    'website': "http://www.odoouse.cn",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml
@@ -25,11 +25,6 @@
 
     # always loaded
     'data': [
-        'data.xml',
         'templates.xml',
-        'security/roles.xml',
-    ],
-    # only loaded in demonstration mode
-    'demo': [
     ],
 }

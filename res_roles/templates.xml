@@ -10,8 +10,8 @@
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr="//group[@string='Allowed Companies']" position="before">
-                        <button string="Clear access rights" type="object" name="action_clear_access_rights"/>
+                    <xpath expr="//page[@name='access_rights']" position="inside">
+                        <button string="Clear Access Rights" type="object" name="action_clear_access_rights"/>
                     </xpath>
                 </data>
             </field>
