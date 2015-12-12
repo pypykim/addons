@@ -29,6 +29,9 @@ class res_users(osv.Model):
             if uid == user.id and g.id in admin_groups:
                 # don't allow to admin to clear his rights
                 continue
+            if uid == 1:
+                # don't allow to admin to clear Admin's [user_root] rights
+                continue
             groups_id.append((3, g.id))
         user.write({'groups_id': groups_id})
         return True
