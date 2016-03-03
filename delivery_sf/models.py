@@ -3,7 +3,7 @@
 from openerp import models, fields, api
 
 class DeliveryCarrierSF(models.Model):
-    _inherit = 'delivery.carrier'   
+    _inherit = 'delivery.carrier'
 
     ''' A Shipping Provider
 
@@ -20,7 +20,10 @@ class DeliveryCarrierSF(models.Model):
        (they are documented hereunder)
     '''
 
-    delivery_type = fields.Selection([('fixed', 'Fixed Price'), ('base_on_rule', 'Based on Rules'), ('sf','SF Express')], string='Price Computation', default='fixed', required=True)
+    def _get_delivery_type(self):
+        delivery_type = super(DeliveryCarrierSF, self)._get_delivery_type()
+        delivery_type.append(('sf', 'SF Express'))
+        return delivery_type
 
     def sf_get_shipping_price_from_so(self, order):
         return [0.0]
