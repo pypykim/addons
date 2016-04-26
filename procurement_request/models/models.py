@@ -33,7 +33,7 @@ class RequestOrder(models.Model):
         required=True,
         readonly=False,
         index=True,
-        default=None,
+        default='New',
         help=False,
         size=50,
         translate=True
@@ -82,7 +82,7 @@ class RequestOrder(models.Model):
     order_line = fields.One2many('request.order.line', 'order_id', string='Order Lines',
                                  states={'cancel': [('readonly', True)], 'confirmed': [('readonly', True)],  'approved': [('readonly', True) ], 'done': [('readonly', True) ]}, copy=True)
 
-    note = fields.Text('Notes', )
+    note = fields.Text('Notes',   states={'cancel': [('readonly', True)], 'confirmed': [('readonly', True)],  'approved': [('readonly', True) ], 'done': [('readonly', True) ]}  )
 
     procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group', copy=False)
 
