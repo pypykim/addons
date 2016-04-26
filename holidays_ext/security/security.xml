@@ -1,0 +1,28 @@
+<openerp>
+  <data>
+
+
+<!--     <record model="res.groups" id="group_deparment_managers">
+        <field name="name"> Department Managers </field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_hr_user'))]"/>
+    </record>
+
+    <record model="res.groups" id="group_hr_managers">
+        <field name="name"> HR Managers </field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_hr_user'))]"/>
+    </record> -->
+
+<!--     <record id="hr_holidays.property_rule_holidays_officer" model="ir.rule">
+        <field name="name">Holidays Officer</field>
+        <field name="model_id" ref="model_hr_holidays"/>
+        <field name="groups" eval="[(4,ref('base.group_hr_user'))] "/> 
+        <field name="perm_read" eval="True" />
+
+        <field name="domain_force">['|',('employee_id.department_id','=',False),('employee_id.department_id.manager_id','in', [emp.id for emp in user.employee_ids])]</field>
+        <field name="active" eval="True" />
+    </record> -->
+
+    </data>
+</openerp>

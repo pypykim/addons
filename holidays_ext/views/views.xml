@@ -1,0 +1,32 @@
+<openerp>
+  <data>
+
+        <record id="calendar_company" model="ir.ui.view">
+            <field name="name">res.company.calendar</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='account_grp']" position="after">
+                    <group name="calendars_grp" string="Calendars">
+                        <field name="resource_calendar" required="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+<!--         <record id="view_edit_holiday_new" model="ir.ui.view">
+            <field name="name">Leave Request</field>
+            <field name="model">hr.holidays</field>
+            <field name="type">form</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new" />
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[2]" position="replace">
+                    <button string="Approve" name="validate" states="confirm" type="workflow" groups="holidays_ext.group_deparment_managers" class="oe_highlight"/> 
+                </xpath>
+            </field>
+        </record> -->
+  </data>
+</openerp>
