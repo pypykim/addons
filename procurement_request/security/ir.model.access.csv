@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access__request_order_officer,request.order officer,procurement_request.model_request_order,base.group_hr_user,1,1,1,1
+access__request_order_line_officer,request.order.line officer,procurement_request.model_request_order_line,base.group_hr_user,1,1,1,1
+access__request_order_employee,request.order employee,procurement_request.model_request_order,base.group_user,1,1,1,0
+access__request_order_line_employee,request.order.line employee,procurement_request.model_request_order_line,base.group_user,1,1,1,0

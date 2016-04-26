@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+    <record id="ir_rule_request_order_see_owned" model="ir.rule">
+        <field name="name">Employee See Their Own Request</field>
+        <field name="model_id" ref="model_request_order"/>
+        <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+    </record>
+
+    <record id="ir_rule_request_order_see_responsed" model="ir.rule">
+        <field name="name">Officer See Their Department's Request</field>
+        <field name="model_id" ref="model_request_order"/>
+        <field name="domain_force">['|', ('department_id','=', False), ('department_id.manager_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4,ref('base.group_hr_user'))]"/>
+    </record>
+
+
+
+  </data>
+</openerp>
