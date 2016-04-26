@@ -31,12 +31,11 @@ class RequestOrder(models.Model):
     name = fields.Char(
         string='Name',
         required=True,
-        readonly=False,
+        readonly=True,
         index=True,
         default='New',
         help=False,
         size=50,
-        translate=True
     )
 
     state = fields.Selection([
@@ -72,7 +71,7 @@ class RequestOrder(models.Model):
         return warehouse_ids
 
     warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse',
-        required=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+        required=True, readonly=True, states={'draft': [('readonly', False)], 'confirmed': [('readonly', False)], 'approved': [('readonly', True) ], 'done': [('readonly', True) ]},
         default=_default_warehouse_id)
 
     date_order = fields.Datetime(string='Order Date', required=True, readonly=True, index=True,
@@ -82,7 +81,7 @@ class RequestOrder(models.Model):
     order_line = fields.One2many('request.order.line', 'order_id', string='Order Lines',
                                  states={'cancel': [('readonly', True)], 'confirmed': [('readonly', True)],  'approved': [('readonly', True) ], 'done': [('readonly', True) ]}, copy=True)
 
-    note = fields.Text('Notes',   states={'cancel': [('readonly', True)], 'confirmed': [('readonly', True)],  'approved': [('readonly', True) ], 'done': [('readonly', True) ]}  )
+    note = fields.Text('Notes', required="True",  states={'cancel': [('readonly', False)], 'confirmed': [('readonly', True)],  'approved': [('readonly', True) ], 'done': [('readonly', True) ]}  )
 
     procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group', copy=False)
 

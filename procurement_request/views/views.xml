@@ -22,8 +22,8 @@
                         <button name="action_confirm" type='object' states="draft" class="btn-primary" string="Confirm"/>
                         <button name="action_approve" type='object' states="confirmed" string="Approve" groups="base.group_hr_user" />
                         <button name="action_done" type='object' states="approved" string="Done" />
-                        <button name="action_draft" type='object' states="action_cancel" string="Set to Draft"  />
-                        <button name="action_cancel" type='object'  states="draft" string="Cancel" />
+                        <button name="action_draft" type='object' states="cancel" string="Set to Draft"  />
+                        <button name="action_cancel" type='object'  states="confirmed" string="Cancel" />
                         <field name="state" widget="statusbar"  statusbar_visible="draft,confirmed,approved,done" />
                     </header>
                     <sheet>
