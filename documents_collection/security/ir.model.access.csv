@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_documents_collection_documents_collection,documents_collection.documents_collection,model_documents_collection_documents_collection,,1,0,0,0

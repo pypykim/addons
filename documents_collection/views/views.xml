@@ -1,0 +1,75 @@
+<openerp>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="documents_collection.list">
+            <field name="name">Document Collections</field>
+            <field name="model">document.collection</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="usage" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="documents_collection.form">
+            <field name="name">Document Collections</field>
+            <field name="model">document.collection</field>
+            <field name="arch" type="xml">
+                <form string="Document Collection">
+                    <header>
+                        <button name="attachment_tree_view" string="上传附件" type='object' />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" />
+                            <h1>
+                                <field name="name" placeholder="Describe the item..."/>
+                            </h1>
+                        </div>
+                        <field name="usage" />
+                        <notebook>
+                            <page string="附件明细">
+                                <field name="attachments">
+                                    <tree string="Document Collection">
+                                        <field name="name" />
+                                        <field name="datas_fname" />
+                                        <field name="type" />
+                                        <field name="create_uid" />
+                                        <field name="create_date" />
+                                        <field name="datas" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="documents_collection.action_window">
+            <field name="name">Document Collections</field>
+            <field name="res_model">document.collection</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- server action to the one above -->
+        <!--
+        <record model="ir.actions.server" id="documents_ext.action_server">
+          <field name="name">documents_ext server</field>
+          <field name="model_id" ref="model_documents_ext_documents_ext"/>
+          <field name="code">
+            action = {
+              "type": "ir.actions.act_window",
+              "view_mode": "tree,form",
+              "res_model": self._name,
+            }
+          </field>
+        </record>
+        -->
+        <!-- Top menu item -->
+        <menuitem name="Document" id="documents_collection.menu_root" />
+        <!-- menu categories -->
+        <menuitem name="Document" id="documents_collection.menu_1" parent="documents_collection.menu_root" />
+        <!-- actions -->
+        <menuitem name="Collections" id="documents_collection.menu_1_list" parent="documents_collection.menu_1" action="documents_collection.action_window" />
+    </data>
+</openerp>
