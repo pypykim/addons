@@ -297,7 +297,6 @@ class RequestOrderLine(models.Model):
         new_procs.run()
         return new_procs
 
-
 class ProcurementOrder(models.Model):
     _inherit = 'procurement.order'
     request_line_id = fields.Many2one('request.order.line', string='Request Order Line')
