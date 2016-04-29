@@ -6,6 +6,7 @@ from openerp.exceptions import UserError
 
 import openerp.addons.decimal_precision as dp
 
+
 class ExpenseOrder(models.Model):
     _name = "expense.order"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
@@ -30,20 +31,40 @@ class ExpenseOrder(models.Model):
             })
 
     name = fields.Char(string=u'报销名称', readonly=True, required=True, states={'draft': [('readonly', False)]})
-    date = fields.Date(readonly=True, states={'draft': [('readonly', False)]}, default=fields.Date.context_today, string=u"日期")
-    employee_id = fields.Many2one('hr.employee', string=u'员工', required=True, readonly=True, states={'draft': [('readonly', False)]}, default=lambda self: self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1))
-    company_id = fields.Many2one('res.company', string=u'公司', readonly=True, states={'draft': [('readonly', False)]}, default=lambda self: self.env.user.company_id)
-    currency_id = fields.Many2one('res.currency', string=u'货币', readonly=True, states={'draft': [('readonly', False)]}, default=lambda self: self.env.user.company_id.currency_id)
-    department_id = fields.Many2one('hr.department', string=u'部门', states={'post': [('readonly', True)], 'done': [('readonly', True)]}, related='employee_id.department_id')
-    analytic_account_id = fields.Many2one('account.analytic.account', string=u'项目', states={'post': [('readonly', True)], 'done': [('readonly', True)]}, oldname='analytic_account', domain=[('account_type', '=', 'normal')])
+    date = fields.Date(readonly=True, states={'draft': [('readonly', False)]}, default=fields.Date.context_today,
+                       string=u"日期")
+    employee_id = fields.Many2one('hr.employee', string=u'员工', required=True, readonly=True,
+                                  states={'draft': [('readonly', False)]},
+                                  default=lambda self: self.env['hr.employee'].search([('user_id', '=', self.env.uid)],
+                                                                                      limit=1))
+    company_id = fields.Many2one('res.company', string=u'公司', readonly=True, states={'draft': [('readonly', False)]},
+                                 default=lambda self: self.env.user.company_id)
+    currency_id = fields.Many2one('res.currency', string=u'货币', readonly=True, states={'draft': [('readonly', False)]},
+                                  default=lambda self: self.env.user.company_id.currency_id)
+    department_id = fields.Many2one('hr.department', string=u'部门',
+                                    states={'post': [('readonly', True)], 'done': [('readonly', True)]},
+                                    related='employee_id.department_id')
+    analytic_account_id = fields.Many2one('account.analytic.account', string=u'项目',
+                                          states={'post': [('readonly', True)], 'done': [('readonly', True)]},
+                                          oldname='analytic_account', domain=[('account_type', '=', 'normal')])
     description = fields.Text()
-    payment_mode = fields.Selection([("own_account", u"员工（报销）"), ("company_account", u"公司")], default='own_account', states={'done': [('readonly', True)], 'post': [('readonly', True)]}, string=u"付款")
-    journal_id = fields.Many2one('account.journal', string=u'分类账', states={'done': [('readonly', True)], 'post': [('readonly', True)]}, default=lambda self: self.env['account.journal'].search([('type', '=', 'purchase')], limit=1), help="The journal used when the expense is done.")
-    bank_journal_id = fields.Many2one('account.journal', string='存款日志', states={'done': [('readonly', True)], 'post': [('readonly', True)]}, default=lambda self: self.env['account.journal'].search([('type', 'in', ['cash', 'bank'])], limit=1), help="The payment method used when the expense is paid by the company.")
+    payment_mode = fields.Selection([("own_account", u"员工（报销）"), ("company_account", u"公司")], default='own_account',
+                                    states={'done': [('readonly', True)], 'post': [('readonly', True)]}, string=u"付款")
+    journal_id = fields.Many2one('account.journal', string=u'分类账',
+                                 states={'done': [('readonly', True)], 'post': [('readonly', True)]},
+                                 default=lambda self: self.env['account.journal'].search([('type', '=', 'purchase')],
+                                                                                         limit=1),
+                                 help="The journal used when the expense is done.")
+    bank_journal_id = fields.Many2one('account.journal', string='存款日志',
+                                      states={'done': [('readonly', True)], 'post': [('readonly', True)]},
+                                      default=lambda self: self.env['account.journal'].search(
+                                          [('type', 'in', ['cash', 'bank'])], limit=1),
+                                      help="The payment method used when the expense is paid by the company.")
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
     total_amount = fields.Float(string=u'总计', store=True, compute='_compute_amount', digits=dp.get_precision('Account'))
     tax_amount = fields.Float(string='Tax', store=True, compute='_compute_amount', digits=dp.get_precision('Account'))
-    untaxed_amount = fields.Float(string='Subtotal', store=True, compute='_compute_amount', digits=dp.get_precision('Account'))
+    untaxed_amount = fields.Float(string='Subtotal', store=True, compute='_compute_amount',
+                                  digits=dp.get_precision('Account'))
     expense_line = fields.One2many("hr.expense", 'order_id', string=u'费用明细')
 
     state = fields.Selection([('draft', '草稿'),
@@ -52,13 +73,15 @@ class ExpenseOrder(models.Model):
                               ('post', '等待付款'),
                               ('done', '已付'),
                               ('cancel', '拒绝')
-                              ], string=u'状态', index=True, readonly=True, track_visibility='onchange', copy=False, default='draft', required=True,
-        help='When the expense request is created the status is \'To Submit\'.\n It is submitted by the employee and request is sent to manager, the status is \'Submitted\'.\
+                              ], string=u'状态', index=True, readonly=True, track_visibility='onchange', copy=False,
+                             default='draft', required=True,
+                             help='When the expense request is created the status is \'To Submit\'.\n It is submitted by the employee and request is sent to manager, the status is \'Submitted\'.\
         \nIf the manager approve it, the status is \'Approved\'.\n If the accountant genrate the accounting entries for the expense request, the status is \'Waiting Payment\'.')
 
     @api.multi
     def _compute_attachment_number(self):
-        attachment_data = self.env['ir.attachment'].read_group([('res_model', '=', 'expense.order'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
+        attachment_data = self.env['ir.attachment'].read_group(
+            [('res_model', '=', 'expense.order'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
         attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
         for expense in self:
             expense.attachment_number = attachment.get(expense.id, 0)
@@ -153,6 +176,7 @@ class ExpenseOrder(models.Model):
         if any(expense.state != 'draft' for expense in self):
             raise UserError(_("You can only submit draft expenses!"))
         self.write({'state': 'submit'})
+        self.expense_line.write({'state': self.state})
 
         # here assign the analyze account for each product
         # if no project, do noting
@@ -169,25 +193,31 @@ class ExpenseOrder(models.Model):
     @api.multi
     def approve_expenses(self):
         self.write({'state': 'approve'})
+        self.expense_line.write({'state': self.state})
 
     @api.multi
     def refuse_expenses(self, reason):
         self.write({'state': 'cancel'})
+        self.expense_line.write({'state': self.state})
         if self.employee_id.user_id:
-            body = (_("Your Expense %s has been refused.<br/><ul class=o_timeline_tracking_value_list><li>Reason<span> : </span><span class=o_timeline_tracking_value>%s</span></li></ul>") % (self.name, reason))
+            body = (_(
+                "Your Expense %s has been refused.<br/><ul class=o_timeline_tracking_value_list><li>Reason<span> : </span><span class=o_timeline_tracking_value>%s</span></li></ul>") % (
+                    self.name, reason))
             self.message_post(body=body, partner_ids=[self.employee_id.user_id.partner_id.id])
 
     @api.multi
     def paid_expenses(self):
         self.write({'state': 'done'})
+        self.expense_line.write({'state': self.state})
 
     @api.multi
     def reset_expenses(self):
         return self.write({'state': 'draft'})
+        self.expense_line.write({'state': self.state})
 
     @api.multi
     def action_move_create(self):
-        self.expense_line.write({'state': 'approve'})
+        self.expense_line.write({'state': self.state})
         for e in self.expense_line:
             e.action_move_create()
 
@@ -215,7 +245,6 @@ class ExpenseOrder(models.Model):
 
 
 class HrExpense(models.Model):
-
     _inherit = "hr.expense"
 
     order_id = fields.Many2one('expense.order', string='expense order')
@@ -225,7 +254,8 @@ class HrExpense(models.Model):
         if self.product_id:
             if not self.name:
                 self.name = self.product_id.display_name or ''
-            self.unit_amount = self.env['product.template']._price_get(self.product_id, 'standard_price')[self.product_id.id]
+            self.unit_amount = self.env['product.template']._price_get(self.product_id, 'standard_price')[
+                self.product_id.id]
             self.product_uom_id = self.product_id.uom_id
             self.tax_ids = self.product_id.supplier_taxes_id
             # self.analytic_account_id = self.product_id.analytic_account_id
