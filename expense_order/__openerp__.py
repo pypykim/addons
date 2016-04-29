@@ -12,6 +12,8 @@
         'hr_expense'
     ],
     "data": [
+        "security/ir.model.access.csv",
+        "security/ir_rule.xml",
         "expense_order_view.xml"
     ],
 
