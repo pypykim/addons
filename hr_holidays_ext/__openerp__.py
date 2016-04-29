@@ -6,9 +6,10 @@
         Customize for Leave Management""",
 
     'description': """
-        Add default working time to company
-        Employee can request leave in hours
-        Add new group as department manager to do the first validation for leave request
+        Add default working time to company \n
+        Employee can request leave in hours \n
+        Add new group as department manager to do the first validation for leave request \n
+        
     """,
 
     'author': "jeffery <jeffery9@gmail.com>",

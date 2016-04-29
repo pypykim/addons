@@ -7,27 +7,26 @@
         <field name="act_to" ref="hr_holidays.act_validate" />
         <field name="signal">validate</field>
         <field name="condition">not double_validation</field>
-        <field name="group_id" ref="holidays_ext.group_hr_managers"/>
-    </record>
+        <field name="group_id" ref="hr_holidays_ext.group_deparment_managers"/>
+    </record> -->
 
     <record model="workflow.transition" id="hr_holidays.holiday_confirm2validate1"> 
         <field name="act_from" ref="hr_holidays.act_confirm" />
         <field name="act_to" ref="hr_holidays.act_validate1" />
         <field name="signal">validate</field>
         <field name="condition">double_validation</field>
-        <field name="group_id" ref="holidays_ext.group_deparment_managers"/>
+        <field name="group_id" ref="hr_holidays_ext.group_deparment_managers"/>
     </record>
 
 
-    <record model="workflow.transition" id="hr_holidays.holiday_validate1_validate">
+<!--     <record model="workflow.transition" id="hr_holidays.holiday_validate1_validate">
         <field name="act_from" ref="hr_holidays.act_validate1" />
         <field name="act_to" ref="hr_holidays.act_validate" />
         <field name="condition">True</field>
         <field name="signal">second_validate</field>
-        <field name="group_id" ref="holidays_ext.group_hr_managers"/>
-    </record>
- -->
-  
+        <field name="group_id" ref="hr_holidays_ext.group_deparment_managers"/>
+    </record> -->
+
 
 </data>
 </openerp>
