@@ -1,0 +1,60 @@
+<openerp>
+    <data>
+
+        <record id="view_attendance_tree_event_cico" model="ir.ui.view">
+            <field name="name">hr.attendance.tree</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='action_desc']" position="after">
+                    <field name="latitude" readonly="1"/>
+                    <field name="longitude" readonly="1"/>
+                    <field name="calendar_event_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_attendance_form_event_cico" model="ir.ui.view">
+            <field name="name">hr.attendance.form</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='action_desc']" position="after">
+                    <field name="latitude" readonly="1"/>
+                    <field name="longitude" readonly="1"/>
+                    <field name="calendar_event_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!--<record id="view_calendar_event_form_popup_event_cico" model="ir.ui.view">-->
+        <!--<field name="name">Meetings Dialog</field>-->
+        <!--<field name="model">calendar.event</field>-->
+        <!--<field name="inherit_id" ref="calendar.view_calendar_event_form_popup"/>-->
+        <!--<field name="arch" type="xml">-->
+        <!--<xpath expr="//field[@name='alarm_ids']" position="after">-->
+        <!--&lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
+        <!--<button name="event_cico" string="Check In/Out"-->
+        <!--attrs=" {'invisible': [('is_attendee','=',False)]}"/>-->
+        <!--</xpath>-->
+        <!--</field>-->
+        <!--</record>-->
+
+
+        <record id="view_calendar_event_form_event_cico" model="ir.ui.view">
+            <field name="name">Calendar - Event Form</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <button name="event_cico" type='object' string="Check In/Out"
+                            attrs=" {'invisible': [('is_attendee','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

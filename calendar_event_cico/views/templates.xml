@@ -1,0 +1,9 @@
+<openerp>
+    <data>
+        <template id="assets_backend" name="calendar event_cico assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/calendar_event_cico/static/src/js/event_cico.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>
