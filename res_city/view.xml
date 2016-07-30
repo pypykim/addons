@@ -16,7 +16,10 @@
                     </xpath>
 
                     <xpath expr="//field[@name='city']" position="replace">
-                        <field name="city" class="oe_no_button" placeholder="City" style="width: 37%%"
+                        <field name="county" class="oe_no_button" placeholder="County" style="width: 17%%"
+                               options='{"no_open": True}' on_change="onchange_county()"
+                               attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                        <field name="city" class="oe_no_button" placeholder="City" style="width: 20%%"
                                options='{"no_open": True}' on_change="onchange_city(city)"
                                attrs="{'readonly': [('use_parent_address','=',True)]}"/>
                     </xpath>
@@ -36,7 +39,10 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//field[@name='city']" position="replace">
-                        <field name="city" class="oe_no_button" placeholder="City" style="width: 37%%"
+                        <field name="county" class="oe_no_button" placeholder="County" style="width: 17%%"
+                               options='{"no_open": True}' on_change="onchange_county()"
+                               attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                        <field name="city" class="oe_no_button" placeholder="City" style="width: 20%%"
                                options='{"no_open": True}' on_change="onchange_city(city)"
                                 />
                     </xpath>
@@ -72,8 +78,8 @@
             </field>
         </record>
 
-        <record id="action_country_state" model="ir.actions.act_window">
-            <field name="name">城市</field>
+        <record id="action_country_city" model="ir.actions.act_window">
+            <field name="name">City</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.country.city</field>
             <field name="view_type">form</field>
@@ -81,8 +87,48 @@
             <field name="help"></field>
         </record>
 
-        <menuitem action="action_country_state" id="menu_country_city_partner" parent="base.menu_localisation"
+        <menuitem action="action_country_city" id="menu_country_city" parent="base.menu_localisation"
                   sequence="2" groups="base.group_no_one"/>
+
+ <!--
+         county
+       -->
+
+        <record id="view_country_county_tree" model="ir.ui.view">
+            <field name="name">res.country.county.tree</field>
+            <field name="model">res.country.county</field>
+            <field name="arch" type="xml">
+                <tree string="State">
+                    <field name="name"/>
+                    <field name="state_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_country_county_form" model="ir.ui.view">
+            <field name="name">res.country.county.form</field>
+            <field name="model">res.country.county</field>
+            <field name="arch" type="xml">
+                <form string="State">
+                    <group>
+                        <field name="name"/>
+                        <field name="state_id" options='{"no_open": True}'/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_country_county" model="ir.actions.act_window">
+            <field name="name">County</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.county</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_country_county_tree"/>
+            <field name="help"></field>
+        </record>
+
+        <menuitem action="action_country_county" id="menu_country_county" parent="base.menu_localisation"
+                  sequence="3" groups="base.group_no_one"/>
 
     </data>
 </openerp>

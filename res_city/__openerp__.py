@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "城市扩张",
+    'name': "城市扩展",
 
     'summary': """
-        本模块定义了城市与省份之前的关联关系
+        本模块定义了县/市与省份之前的关联关系
 
         """,
 
     'description': """
         本模块定义了城市与省份之前的关联关系
-        1，城市限定于 省份
-        2，一个维护城市的视图
-        3，选择 城市时，自动切换所属的省份
-
-
+        1，县/市限定于省份
+        2，一个维护县/市的视图
+        3，选择 县/市时，自动切换所属的省份
 
     """,
 
@@ -27,13 +25,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['crm'],
+    'depends': ['crm','l10n_cn'],
 
     # always loaded
     'data': [
-        'data.xml',
-        'templates.xml',
-        'security/roles.xml',
+        'view.xml',
+        'res.country.city.csv',
+        'res.country.county.csv',
     ],
     # only loaded in demonstration mode
     'demo': [
