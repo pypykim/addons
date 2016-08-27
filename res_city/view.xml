@@ -16,16 +16,18 @@
                     </xpath>
 
                     <xpath expr="//field[@name='city']" position="replace">
-                        <field name="county" class="oe_no_button" placeholder="County" style="width: 17%%"
-                               options='{"no_open": True}' on_change="onchange_county()"
-                               attrs="{'readonly': [('use_parent_address','=',True)]}"/>
-                        <field name="city" class="oe_no_button" placeholder="City" style="width: 20%%"
-                               options='{"no_open": True}' on_change="onchange_city(city)"
-                               attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                        <field name="county" class="oe_no_button" placeholder="County" style="width: 30%%"
+                               options='{"no_open": True}' on_change="onchange_county(county)"/>
+                        <field name="city" class="oe_no_button" placeholder="City" style="width: 30%%"
+                               options='{"no_open": True}' on_change="onchange_city(city)"/>
                     </xpath>
                     <xpath expr="//field[@name='title']" position="after">
                         <field name="identification" attrs="{'invisible': [('is_company','=',True)]}"/>
                         <field name="identification_code" attrs="{'invisible': [('is_company','=',True)]}"/>
+                    </xpath>
+                    <xpath expr="//field[@name='fax']" position="after">
+                        <field name="qq" attrs="{'invisible': [('is_company','=',True)]}"/>
+                        <field name="wechat" attrs="{'invisible': [('is_company','=',True)]}"/>
                     </xpath>
                 </data>
             </field>
@@ -39,12 +41,17 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//field[@name='city']" position="replace">
-                        <field name="county" class="oe_no_button" placeholder="County" style="width: 17%%"
-                               options='{"no_open": True}' on_change="onchange_county()"
-                               attrs="{'readonly': [('use_parent_address','=',True)]}"/>
-                        <field name="city" class="oe_no_button" placeholder="City" style="width: 20%%"
+                        <field name="county" class="oe_no_button" placeholder="County" style="width: 30%%"
+                               options='{"no_open": True}' on_change="onchange_county(county)"/>
+                        <field name="city" class="oe_no_button" placeholder="City" style="width: 30%%"
                                options='{"no_open": True}' on_change="onchange_city(city)"
                                 />
+                    </xpath>
+                    <xpath expr="//field[@name='partner_name']" position="after">
+                        <field name="website"/>
+                    </xpath>
+                    <xpath expr="//field[@name='fax']" position="after">
+                        <field name="qq" placeholder="QQ"/>
                     </xpath>
                 </data>
             </field>
@@ -71,7 +78,7 @@
             <field name="arch" type="xml">
                 <form string="State">
                     <group>
-                        <field name="name"/>
+                        /><field name="name"/>
                         <field name="state_id" options='{"no_open": True}'/>
                     </group>
                 </form>
@@ -98,9 +105,9 @@
             <field name="name">res.country.county.tree</field>
             <field name="model">res.country.county</field>
             <field name="arch" type="xml">
-                <tree string="State">
+                <tree string="City">
                     <field name="name"/>
-                    <field name="state_id"/>
+                    <field name="city_id"/>
                 </tree>
             </field>
         </record>
@@ -109,10 +116,10 @@
             <field name="name">res.country.county.form</field>
             <field name="model">res.country.county</field>
             <field name="arch" type="xml">
-                <form string="State">
+                <form string="City">
                     <group>
                         <field name="name"/>
-                        <field name="state_id" options='{"no_open": True}'/>
+                        <field name="city_id" options='{"no_open": True}'/>
                     </group>
                 </form>
             </field>

@@ -1,0 +1,185 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* res_city
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-27 06:11+0000\n"
+"PO-Revision-Date: 2016-08-27 06:11+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: res_city
+#: selection:res.partner,identification:0
+msgid "Certificate officer"
+msgstr "军官证"
+
+#. module: res_city
+#: model:ir.actions.act_window,name:res_city.action_country_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_county_city_id
+#: model:ir.ui.menu,name:res_city.menu_country_city
+#: model:ir.ui.view,arch_db:res_city.crm_case_form_view_leads_city
+#: model:ir.ui.view,arch_db:res_city.view_country_county_form
+#: model:ir.ui.view,arch_db:res_city.view_country_county_tree
+#: model:ir.ui.view,arch_db:res_city.view_partner_form_city
+msgid "City"
+msgstr "城市"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city_name
+msgid "City Name"
+msgstr "城市名称"
+
+#. module: res_city
+#: model:ir.model.fields,help:res_city.field_res_country_city_name
+msgid "City name of a country."
+msgstr "国家的城市名称."
+
+#. module: res_city
+#: model:ir.model,name:res_city.model_res_country_city
+msgid "Country City"
+msgstr "城市"
+
+#. module: res_city
+#: model:ir.actions.act_window,name:res_city.action_country_county
+#: model:ir.model,name:res_city.model_res_country_county
+#: model:ir.model.fields,field_description:res_city.field_crm_lead_county
+#: model:ir.model.fields,field_description:res_city.field_res_partner_county
+#: model:ir.ui.menu,name:res_city.menu_country_county
+#: model:ir.ui.view,arch_db:res_city.crm_case_form_view_leads_city
+#: model:ir.ui.view,arch_db:res_city.view_partner_form_city
+msgid "County"
+msgstr "县区"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_county_name
+msgid "County Name"
+msgstr "县区名称"
+
+#. module: res_city
+#: model:ir.model.fields,help:res_city.field_res_country_county_name
+msgid "County name of a country."
+msgstr "国家的县区名称."
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city_create_uid
+#: model:ir.model.fields,field_description:res_city.field_res_country_county_create_uid
+msgid "Created by"
+msgstr "创建者"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city_create_date
+#: model:ir.model.fields,field_description:res_city.field_res_country_county_create_date
+msgid "Created on"
+msgstr "创建时间"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city_display_name
+#: model:ir.model.fields,field_description:res_city.field_res_country_county_display_name
+msgid "Display Name"
+msgstr "显示名称"
+
+#. module: res_city
+#: selection:res.partner,identification:0
+msgid "Driving license"
+msgstr "驾照"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city_id
+#: model:ir.model.fields,field_description:res_city.field_res_country_county_id
+msgid "ID"
+msgstr "ID"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_partner_identification_code
+msgid "Identification code"
+msgstr "证件号码"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_partner_identification
+msgid "Identification type"
+msgstr "证件类型"
+
+#. module: res_city
+#: selection:res.partner,identification:0
+msgid "Identity card"
+msgstr "身份证"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city___last_update
+#: model:ir.model.fields,field_description:res_city.field_res_country_county___last_update
+msgid "Last Modified on"
+msgstr "最后修改时间"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city_write_uid
+#: model:ir.model.fields,field_description:res_city.field_res_country_county_write_uid
+msgid "Last Updated by"
+msgstr "最后更新者"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city_write_date
+#: model:ir.model.fields,field_description:res_city.field_res_country_county_write_date
+msgid "Last Updated on"
+msgstr "最后更新时间"
+
+#. module: res_city
+#: model:ir.model,name:res_city.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "线索/商机"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_partner_organization_code
+msgid "Organization code"
+msgstr "组织号码"
+
+#. module: res_city
+#: selection:res.partner,identification:0
+msgid "Other"
+msgstr "其他"
+
+#. module: res_city
+#: model:ir.model,name:res_city.model_res_partner
+msgid "Partner"
+msgstr "合作伙伴"
+
+#. module: res_city
+#: selection:res.partner,identification:0
+msgid "Passport"
+msgstr "护照"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_crm_lead_qq
+#: model:ir.model.fields,field_description:res_city.field_res_partner_qq
+#: model:ir.ui.view,arch_db:res_city.crm_case_form_view_leads_city
+msgid "QQ"
+msgstr "QQ"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_country_city_state_id
+#: model:ir.ui.view,arch_db:res_city.view_country_city_form
+#: model:ir.ui.view,arch_db:res_city.view_country_city_tree
+msgid "State"
+msgstr "省份"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_partner_tax_registration
+msgid "Tax registration"
+msgstr "税务登记"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_crm_lead_website
+msgid "Website"
+msgstr "网站"
+
+#. module: res_city
+#: model:ir.model.fields,field_description:res_city.field_res_partner_wechat
+msgid "Wechat"
+msgstr "Wechat"
+

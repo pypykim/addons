@@ -40,15 +40,17 @@ class res_partner(osv.Model):
         'county': fields.many2one("res.country.county", 'County', ondelete='restrict'),
         'city': fields.many2one("res.country.city", 'City', ondelete='restrict'),
         'identification': fields.selection([
-            ('identity_card', u'身份证'),
-            ('passport', u'护照'),
-            ('driving_license', u'驾照'),
-            ('certificate_officer', u'军官证'),
-            ('other', u'其他'),
-        ], string=u'证件类型'),
-        'identification_code': fields.char(u'证件号码'),
-        'organization_code': fields.char(u'组织机构代码'),
-        'tax_registration': fields.char(u'税务登记号'),
+            ('identity_card', 'Identity card'),
+            ('passport', 'Passport'),
+            ('driving_license', 'Driving license'),
+            ('certificate_officer', 'Certificate officer'),
+            ('other', u'Other'),
+        ], string='Identification type'),
+        'identification_code': fields.char('Identification code'),
+        'organization_code': fields.char('Organization code'),
+        'tax_registration': fields.char('Tax registration'),
+        'qq': fields.char('QQ'),
+        'wechat': fields.char('Wechat'),
     }
 
     def onchange_city(self, cr, uid, ids, city, context=None):
@@ -60,7 +62,7 @@ class res_partner(osv.Model):
     def onchange_county(self, cr, uid, ids, county, context=None):
         if county:
             county_obj = self.pool.get('res.country.county').browse(cr, uid, county, context=context)
-            return {'value': {'city_id': city_obj.city_id.id}}
+            return {'value': {'city_id': county_obj.city_id.id}}
         return {}
 
 class crm_lead(osv.Model):
@@ -69,6 +71,8 @@ class crm_lead(osv.Model):
     _columns = {
         'county': fields.many2one("res.country.county", 'County'),
         'city': fields.many2one("res.country.city", 'City'),
+        'qq': fields.char('QQ'),
+        'website': fields.char('Website'),
     }
 
     def onchange_city(self, cr, uid, ids, city, context=None):
@@ -80,5 +84,5 @@ class crm_lead(osv.Model):
     def onchange_county(self, cr, uid, ids, county, context=None):
         if county:
             county_obj = self.pool.get('res.country.county').browse(cr, uid, county, context=context)
-            return {'value': {'city_id': city_obj.city_id.id}}
+            return {'value': {'city_id': county_obj.city_id.id}}
         return {}
